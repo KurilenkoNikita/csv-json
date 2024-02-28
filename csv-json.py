@@ -1,33 +1,27 @@
-import json
-import csv
+import csv 
+import json 
  
+# defining the function to convert CSV file to JSON file 
+def convjson(csvFilename, jsonFilename): 
+     
+    # creating a dictionary 
+    mydata = []
+     
+    # reading the data from CSV file 
+    with open(csvFilename, encoding = 'utf-8') as csvfile: 
+        csvRead = csv.DictReader(csvfile) 
+         
+        # Converting rows into dictionary and adding it to data 
+        for rows in csvRead: 
+            mydata.append(rows)
+
  
-# Opening JSON file and loading the data
-# into the variable data
-with open('calendar.json') as json_file:
-    data = json.load(json_file)
+    # dumping the data 
+    with open(jsonFilename, 'w', encoding = 'utf-8') as jsonfile: 
+        jsonfile.write(json.dumps(mydata, indent = 4, ensure_ascii=False)) 
+
+csvFilename = r'calendar.csv' 
+jsonFilename = r'mydatalist.json' 
  
-employee_data = data['months']
- 
-# now we will open a file for writing
-data_file = open('data_file.csv', 'w')
- 
-# create the csv writer object
-csv_writer = csv.writer(data_file)
- 
-# Counter variable used for writing 
-# headers to the CSV file
-count = 0
- 
-for emp in employee_data:
-    if count == 0:
- 
-        # Writing headers of CSV file
-        header = emp.keys()
-        csv_writer.writerow(header)
-        count += 1
- 
-    # Writing data of CSV file
-    csv_writer.writerow(emp.values())
- 
-data_file.close()
+# Calling the convjson function 
+convjson(csvFilename, jsonFilename) 
